@@ -8,9 +8,17 @@
     Exercise page
     <div>
         <h5 th:text="${exercise.name}"></h5>
+        <p th:text="${exercise.description}">Description unavailable</p>
         <div th:each="target:${exercise.targets}">
             <span th:text="${target}"></span>
         </div>
+        <form th:if="${username}" th:action="@{/api/exercises/{exerciseName}(exerciseName=${exercise.name})}" method="post">
+            <h6>Description:</h6>
+            <input type="text" name="description" th:value="${exercise.description}">
+            <h6>Target(s):</h6>
+            <input type="text" name="targets" placeholder="ex. 'Latissimus dorsi, biceps brachii'"> <br/>
+            <input type="submit" value="submit">
+        </form>
     </div>
 </body>
 </html>

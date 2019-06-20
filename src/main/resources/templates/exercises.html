@@ -6,9 +6,19 @@
 </head>
 <body>
     Exercises page
+
+    <form action="/api/exercises" method="post" th:if="${username}">
+        <h4>Name:</h4>
+        <input type="text" name="name" placeholder="eg. pullup" required>
+        <h4>Description (optional):</h4>
+        <input type="text" name="description" placeholder="eg. A bodyweight exercise"> <br/>
+        <input type="submit" value="Submit">
+    </form>
+
     <div th:each="exercise:${exercises}">
         <div>
-            <h5 th:text="${exercise.name}">name?</h5>
+            <a th:text="${exercise.name}" th:href="@{/api/exercises/{exerciseName}(exerciseName=${exercise.name})}"></a>
+            <p th:text="${exercise.description}"></p>
         </div>
     </div>
 </body>

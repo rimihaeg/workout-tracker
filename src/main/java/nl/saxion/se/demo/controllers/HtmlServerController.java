@@ -40,13 +40,13 @@ public class HtmlServerController {
     @RequestMapping("/exercises")
     public class ExercisesHtmlController {
         @GetMapping(path = "")
-        public String getExercises(Model model) {
-            return ExerciseController.getExercises(model);
+        public String getExercises(Model model, HttpSession session) {
+            return ExerciseController.getExercises(model, session);
         }
 
         @GetMapping(path = "/{exerciseName}")
-        public String getExercise(@PathVariable("exerciseName") String exerciseName, Model model) {
-            return ExerciseController.getExercise(exerciseName, model);
+        public String getExercise(@PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
+            return ExerciseController.getExercise(exerciseName, model, session);
         }
     }
 

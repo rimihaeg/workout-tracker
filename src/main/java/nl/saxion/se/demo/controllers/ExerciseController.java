@@ -17,26 +17,33 @@ public class ExerciseController {
     static DataController dataController = DataController.getInstance();
 
     @PostMapping(path = "")
-    @ResponseBody
-    public String createExercise(ExerciseRequestModel exercise, HttpSession session) {
+    public String createExercise(ExerciseRequestModel exercise, Model model, HttpSession session) {
         if (session.getAttribute("username") == null)
             return "401";
         try {
             Exercise newExercise = dataController.addExercise(exercise.toExercise());
-            return newExercise.getName();
+            return getExercises(model, session);
         } catch (DuplicateExerciseException due) {
-            return "Exercise already exists";
+            model.addAttribute("errorMessage", "The exercise already exists");
+            return "404";
         }
     }
 
     @GetMapping(path = "")
-    public static String getExercises(Model model) {
+    public static String getExercises(Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username != null)
+            model.addAttribute("username", username);
+        System.out.println(dataController.getExercises().size());
         model.addAttribute("exercises", dataController.getExercises());
         return "exercises";
     }
 
     @GetMapping(path = "/{exerciseName}")
-    public static String getExercise(@PathVariable("exerciseName") String exerciseName, Model model) {
+    public static String getExercise(@PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username != null)
+            model.addAttribute("username", username);
         Exercise exercise = dataController.getExercise(exerciseName);
         if (exercise == null) {
             model.addAttribute("errorMessage", "Could not find exercise");
@@ -46,9 +53,16 @@ public class ExerciseController {
         return "exercise";
     }
 
-    @PutMapping(path = "/{exerciseName}")
-    @ResponseBody
-    public String updateExercise(ExerciseRequestModel exerciseModel, @PathVariable("exerciseName") String exerciseName, HttpSession session) {
+    /**
+     * Should be a PUT function, but HTML form doesn't support this.
+     * @param exerciseModel
+     * @param exerciseName
+     * @param model
+     * @param session
+     * @return
+     */
+    @PostMapping(path = "/{exerciseName}")
+    public String updateExercise(ExerciseRequestModel exerciseModel, @PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
         if (session.getAttribute("username") == null)
             return "401";
         Exercise exercise = dataController.getExercise(exerciseName);
@@ -61,14 +75,10 @@ public class ExerciseController {
                 dataController.updateExercise(exerciseName, exerciseModel.getTargets());
 
         } catch (ExerciseNotFoundException enfe) {
-            return "Exercise not found";
+            model.addAttribute("errorMessage", "Could not find exercise");
+            return "404";
         }
 
-        String retString = exercise.getName();
-        if (exercise.getDescription() != null)
-            retString += "\t" + exercise.getDescription();
-        if (exercise.getTargets().size() > 0)
-            retString += "\t" + exercise.getTargets().get(0);
-        return retString;
+        return getExercise(exerciseName, model, session);
     }
 }

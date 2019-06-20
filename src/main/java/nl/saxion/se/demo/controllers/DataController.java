@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class DataController {
 
-    Map<String, User> users;
-    Map<String, Exercise> exercises;
+    static Map<String, User> users;
+    static Map<String, Exercise> exercises;
 
     private static DataController dataController;
 
