@@ -1,5 +1,7 @@
 package nl.saxion.se.demo.models.requestModels;
 
+import nl.saxion.se.demo.models.User;
+
 public class UserRequestModel {
 
     String username;
@@ -10,6 +12,10 @@ public class UserRequestModel {
     public UserRequestModel(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User toUser() {
+        return new User(username, password);
     }
 
     public String getUsername() {

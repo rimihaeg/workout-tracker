@@ -40,7 +40,7 @@ public class ExerciseRequestModel {
         if (description != null)
             exercise.setDescription(description);
         if (targets != null)
-            exercise.addTarget(targets);
+            exercise.addTargets(targets);
         return exercise;
     }
 }

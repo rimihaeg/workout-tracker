@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercises</title>
+</head>
+<body>
+    Exercises page
+    <div th:each="exercise:${exercises}">
+        <div>
+            <h5 th:text="${exercise.name}">name?</h5>
+        </div>
+    </div>
+</body>
+</html>

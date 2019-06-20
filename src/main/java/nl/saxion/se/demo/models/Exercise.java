@@ -1,6 +1,5 @@
 package nl.saxion.se.demo.models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,23 +8,31 @@ public class Exercise {
     String name;
     String description;
 
-    ArrayList<String> target;
+    ArrayList<String> targets;
 
     public Exercise(String name) {
         this.name = name;
+
+        targets = new ArrayList<>();
     }
 
     public Exercise(String name, String description) {
         this.name = name;
         this.description = description;
+
+        targets = new ArrayList<>();
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void addTarget(String[] targets) {
-        this.target.addAll(Arrays.asList(targets));
+    public void addTargets(String[] targets) {
+        this.targets.addAll(Arrays.asList(targets));
+    }
+
+    public void addTarget(String target) {
+        this.targets.add(target);
     }
 
     public String getName() {
@@ -36,7 +43,7 @@ public class Exercise {
         return description;
     }
 
-    public ArrayList<String> getTarget() {
-        return target;
+    public ArrayList<String> getTargets() {
+        return targets;
     }
 }

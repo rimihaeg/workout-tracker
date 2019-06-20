@@ -4,10 +4,9 @@ import nl.saxion.se.demo.exceptions.DuplicateExerciseException;
 import nl.saxion.se.demo.exceptions.DuplicateUserException;
 import nl.saxion.se.demo.exceptions.ExerciseNotFoundException;
 import nl.saxion.se.demo.models.Exercise;
+import nl.saxion.se.demo.models.Set;
 import nl.saxion.se.demo.models.User;
-import nl.saxion.se.demo.models.requestModels.ExerciseRequestModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +27,8 @@ public class DataController {
     private DataController() {
         users = new HashMap<>();
         exercises = new HashMap<>();
+
+        addInitialData();
     }
 
     public User getUser(String username) {
@@ -42,7 +43,7 @@ public class DataController {
     }
 
     public User[] getUsers() {
-        return (User[]) users.values().toArray();
+        return (User[]) users.values().toArray(new User[0]);
     }
 
     public void removeUser(String username) {
@@ -76,8 +77,27 @@ public class DataController {
         Exercise exercise = exercises.get(exerciseName);
         if (exercise == null)
             throw new ExerciseNotFoundException();
-        exercise.addTarget(targets);
+        exercise.addTargets(targets);
         return exercise;
+    }
+
+    private void addInitialData() {
+        User user = new User("user", "user");
+        users.put("user", user);
+        users.put("admin", new User("admin", "admin"));
+
+        Exercise pushup = new Exercise("pushup", "a basic exercise");
+        pushup.addTarget("Pectoral");
+        pushup.addTarget("Triceps");
+        pushup.addTarget("Deltoid");
+        exercises.put("pushup", pushup);
+        exercises.put("squat", new Exercise("squat", "a basic exercise"));
+
+        user.addSet(new Set(pushup, 5));
+        user.addSet(new Set(pushup, 8));
+        user.addSet(new Set(pushup, 12));
+        user.addSet(new Set(pushup, 8));
+        user.addSet(new Set(pushup, 3));
     }
 
 }

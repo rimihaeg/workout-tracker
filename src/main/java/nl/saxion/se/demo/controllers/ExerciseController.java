@@ -5,15 +5,16 @@ import nl.saxion.se.demo.exceptions.ExerciseNotFoundException;
 import nl.saxion.se.demo.models.Exercise;
 import nl.saxion.se.demo.models.requestModels.ExerciseRequestModel;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/exercises")
+@RequestMapping("/api/exercises")
 public class ExerciseController {
 
-    DataController dataController = DataController.getInstance();
+    static DataController dataController = DataController.getInstance();
 
     @PostMapping(path = "")
     @ResponseBody
@@ -29,15 +30,20 @@ public class ExerciseController {
     }
 
     @GetMapping(path = "")
-    @ResponseBody
-    public String getExercises() {
-        return dataController.getExercises().toString();
+    public static String getExercises(Model model) {
+        model.addAttribute("exercises", dataController.getExercises());
+        return "exercises";
     }
 
     @GetMapping(path = "/{exerciseName}")
-    @ResponseBody
-    public String getExercise(@PathVariable("exerciseName") String exerciseName) {
-        return dataController.getExercise(exerciseName).toString();
+    public static String getExercise(@PathVariable("exerciseName") String exerciseName, Model model) {
+        Exercise exercise = dataController.getExercise(exerciseName);
+        if (exercise == null) {
+            model.addAttribute("errorMessage", "Could not find exercise");
+            return "404";
+        }
+        model.addAttribute("exercise", exercise);
+        return "exercise";
     }
 
     @PutMapping(path = "/{exerciseName}")
@@ -46,6 +52,8 @@ public class ExerciseController {
         if (session.getAttribute("username") == null)
             return "401";
         Exercise exercise = dataController.getExercise(exerciseName);
+        if (exercise == null)
+            return "404";
         try {
             if (exerciseModel.getDescription() != null)
                 dataController.updateExercise(exerciseName, exerciseModel.getDescription());
@@ -55,6 +63,12 @@ public class ExerciseController {
         } catch (ExerciseNotFoundException enfe) {
             return "Exercise not found";
         }
-        return exercise.toString();
+
+        String retString = exercise.getName();
+        if (exercise.getDescription() != null)
+            retString += "\t" + exercise.getDescription();
+        if (exercise.getTargets().size() > 0)
+            retString += "\t" + exercise.getTargets().get(0);
+        return retString;
     }
 }

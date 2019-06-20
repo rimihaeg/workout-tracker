@@ -4,45 +4,46 @@ import nl.saxion.se.demo.exceptions.DuplicateUserException;
 import nl.saxion.se.demo.models.User;
 import nl.saxion.se.demo.models.requestModels.UserRequestModel;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UsersController {
 
-    DataController dataController = DataController.getInstance();
+    static DataController dataController = DataController.getInstance();
 
     @PostMapping(path = "")
-    @ResponseBody
-    public String createUser(UserRequestModel user) {
-        // TODO: return proper user to template
+    public String createUser(UserRequestModel user, Model model) {
         try {
-            User newUser = dataController.addUser(new User(user.getUsername(), user.getPassword()));
-            return newUser.getUsername();
+            User newUser = dataController.addUser(user.toUser());
+            model.addAttribute("username", newUser.getUsername());
+            return "login";
         } catch (DuplicateUserException due) {
-            return "Username already exists";
+            model.addAttribute("duplicateUser", user.getUsername());
+            return "login";
         }
     }
 
     @GetMapping(path = "/{username}")
-    @ResponseBody
-    public String getUser(@PathVariable("username") String username, HttpSession session) {
-        if (session.getAttribute("username") == null)
+    public static String getUser(@PathVariable("username") String username, HttpSession session, Model model) {
+        if (session.getAttribute("username") == null) {
+            model.addAttribute("401");
             return "401";
+        }
         User user = dataController.getUser(username);
         if (user == null)
-            return "404"; //TODO: return user not found page
-        return user.toString();
+            return "404";
+        return "user"; // TODO: change to users?
     }
 
     @GetMapping(path = "")
-    @ResponseBody
-    public String getUsers(HttpSession session) {
+    public static String getUsers(HttpSession session) {
         if (session.getAttribute("username") == null)
             return "401";
-        return dataController.getUsers().toString();
+        return "users";
     }
 
 }

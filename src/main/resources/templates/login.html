@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <div th:if="${username}">
+        User '
+        <span th:text="${username}"></span>
+        ' created
+    </div>
+    <div th:if="${duplicateUser}">
+        User '
+        <span th:text="${duplicateUser}"></span>
+        ' already exists
+    </div>
+
+    <form action="/api/login" method="post">
+        <h3>Login</h3>
+        <h6>Username</h6>
+        <input type="text" name="username" placeholder="username" required>
+        <h6>Password</h6>
+        <input type="password" name="password" placeholder="password" required> <br/>
+        <input type="submit" value="Login">
+    </form>
+
+    <form action="/api/users" method="post">
+        <h3>Register</h3>
+        <h6>Username</h6>
+        <input type="text" name="username" placeholder="username" required>
+        <h6>Password</h6>
+        <input type="password" name="password" placeholder="password" required> <br/>
+        <input type="submit" value="Register" >
+    </form>
+</body>
+</html>

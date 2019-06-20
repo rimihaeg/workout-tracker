@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Me</title>
+</head>
+<body>
+    <span class="success" th:if="${success}">Set added</span>
+    <span class="failure" th:if="${unknownExercise}">Could not find exercise, set not updated</span>
+
+    <p>Me page</p>
+    <p>
+        <span>Hello, </span>
+        <span th:text="${username}"></span>
+    </p>
+
+    <form action="/api/me" method="post">
+        <h3>Add new exercise</h3>
+        <input type="text" name="exerciseName" placeholder="exercise" required>
+        Repetitions:
+        <input type="number" step="1" name="reps" min="1" value="1"> <br/>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div>
+        <h3>Exercises:</h3>
+        <div th:each="set:${sets}">
+            <p>
+                <span>Exercise: </span>
+                <span th:text="${set.exercise.name}"></span>
+            </p>
+            <p>
+                <span>Repetitions: </span>
+                <span th:text="${set.reps}"></span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

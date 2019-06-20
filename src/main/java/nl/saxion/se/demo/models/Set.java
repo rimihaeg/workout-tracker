@@ -2,8 +2,6 @@ package nl.saxion.se.demo.models;
 
 public class Set {
 
-    // TODO: add date
-
     Exercise exercise;
     int reps;
 
