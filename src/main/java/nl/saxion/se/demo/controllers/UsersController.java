@@ -40,9 +40,11 @@ public class UsersController {
     }
 
     @GetMapping(path = "")
-    public static String getUsers(HttpSession session) {
+    public static String getUsers(HttpSession session, Model model) {
         if (session.getAttribute("username") == null)
             return "401";
+        User[] users = dataController.getUsers();
+        model.addAttribute("users", users);
         return "users";
     }
 

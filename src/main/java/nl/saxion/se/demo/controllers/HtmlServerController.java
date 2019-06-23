@@ -2,10 +2,7 @@ package nl.saxion.se.demo.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,8 +23,8 @@ public class HtmlServerController {
     @RequestMapping("/users")
     public class UsersHtmlController {
         @GetMapping(path = "")
-        public String getUsers(HttpSession session) {
-            return UsersController.getUsers(session);
+        public String getUsers(HttpSession session, Model model) {
+            return UsersController.getUsers(session, model);
         }
 
         @GetMapping(path = "/{username}")
@@ -40,8 +37,8 @@ public class HtmlServerController {
     @RequestMapping("/exercises")
     public class ExercisesHtmlController {
         @GetMapping(path = "")
-        public String getExercises(Model model, HttpSession session) {
-            return ExerciseController.getExercises(model, session);
+        public String getExercises(Model model, HttpSession session, @CookieValue(value = "lastExerciseAdded", required = false) String lastExerciseAdded) {
+            return ExerciseController.getExercises(model, session, lastExerciseAdded);
         }
 
         @GetMapping(path = "/{exerciseName}")

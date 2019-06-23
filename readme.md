@@ -19,3 +19,21 @@
 | Yes | POST | /api/me |
 | Yes | GET | /api/me |
 | Yes | GET | /api/me/sets?limit={int} |
+
+
+## Website
+### Website URL's
+| Path |
+| ---- |
+| **Users** |
+| */users* |
+| */users/{username}* |
+| **Login** |
+| */* |
+| **Exercise** |
+| */exercises* |
+| */exercises/{exerciseName}* |
+| **Set** |
+| */me* |
+| */me/sets?limit={int}* |
+

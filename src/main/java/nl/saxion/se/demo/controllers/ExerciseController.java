@@ -8,7 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 @RequestMapping("/api/exercises")
@@ -17,23 +21,33 @@ public class ExerciseController {
     static DataController dataController = DataController.getInstance();
 
     @PostMapping(path = "")
-    public String createExercise(ExerciseRequestModel exercise, Model model, HttpSession session) {
+    public String createExercise(ExerciseRequestModel exercise, Model model, HttpSession session, HttpServletResponse response) {
         if (session.getAttribute("username") == null)
             return "401";
         try {
             Exercise newExercise = dataController.addExercise(exercise.toExercise());
-            return getExercises(model, session);
+            String encodedCookieValue = URLEncoder.encode(newExercise.getName(), "UTF-8");
+            Cookie cookie = new Cookie("lastExerciseAdded", encodedCookieValue);
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            cookie.setPath("/exercises");
+            response.addCookie(cookie);
         } catch (DuplicateExerciseException due) {
             model.addAttribute("errorMessage", "The exercise already exists");
             return "404";
+        } catch (UnsupportedEncodingException uee) {
+
+        } finally {
+            return getExercises(model, session, exercise.getName());
         }
     }
 
     @GetMapping(path = "")
-    public static String getExercises(Model model, HttpSession session) {
+    public static String getExercises(Model model, HttpSession session, @CookieValue(value = "lastExerciseAdded", defaultValue = "") String lastExerciseAdded) {
         String username = (String) session.getAttribute("username");
         if (username != null)
             model.addAttribute("username", username);
+        if (lastExerciseAdded != "")
+            model.addAttribute("lastExerciseAdded", lastExerciseAdded);
         System.out.println(dataController.getExercises().size());
         model.addAttribute("exercises", dataController.getExercises());
         return "exercises";

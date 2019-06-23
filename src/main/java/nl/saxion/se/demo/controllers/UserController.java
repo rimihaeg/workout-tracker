@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Stack;
 
 @Controller
@@ -56,19 +57,17 @@ public class UserController {
         if (session.getAttribute("username") == null)
             return "401";
 
-        Stack<Set> sets = (Stack<Set>) session.getAttribute("sets");
+        Stack<Set> ph = (Stack<Set>) session.getAttribute("sets");
+        List<Set> sets;
 
         if (limit != 0) {
-//            return "sets";
-            // TODO: save unlimited amount of sets
+            sets = ph.subList(0, limit);
         } else {
-//            return "there's no limit!";
-            // TODO: sent limited amount of sets
+            sets = ph.subList(0, ph.size());
         }
+        model.addAttribute("sets", sets);
 
         return "sets";
-
-
     }
 
 }

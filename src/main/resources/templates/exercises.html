@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Exercises</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav>
+        <a href="/">home</a>
+        <a href="/exercises">exercises</a>
+        <a href="/users" th:if="${username}">users</a>
+    </nav>
+
+    <div th:if="${lastExerciseAdded}" class="lastAdded">
+        Last exercise added:
+        <span th:text="${lastExerciseAdded}"></span>
+    </div>
+
     Exercises page
 
     <form action="/api/exercises" method="post" th:if="${username}">

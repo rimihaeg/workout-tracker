@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Exercise</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav>
+        <a href="/">home</a>
+        <a href="/exercises">exercises</a>
+        <a href="/users" th:if="${username}">users</a>
+    </nav>
+
     Exercise page
     <div>
         <h5 th:text="${exercise.name}"></h5>

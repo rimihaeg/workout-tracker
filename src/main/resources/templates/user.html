@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>User</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav>
+        <a href="/">home</a>
+        <a href="/exercises">exercises</a>
+        <a href="/users" th:if="${username}">users</a>
+    </nav>
     User page
     <h2>
         Hello

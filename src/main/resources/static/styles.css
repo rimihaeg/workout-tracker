@@ -1,0 +1,10 @@
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+
+nav > a {
+    padding: 0.2em 0.4em
+}
