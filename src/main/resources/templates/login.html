@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <nav>
@@ -23,22 +24,24 @@
         ' already exists
     </div>
 
-    <form action="/api/login" method="post">
-        <h3>Login</h3>
-        <h6>Username</h6>
-        <input type="text" name="username" placeholder="username" required>
-        <h6>Password</h6>
-        <input type="password" name="password" placeholder="password" required> <br/>
-        <input type="submit" value="Login">
-    </form>
+    <div class="forms">
+        <form action="/api/login" method="post" class="user_form">
+            <h3>Login</h3>
+            Username
+            <input type="text" name="username" placeholder="username" required>
+            Password
+            <input type="password" name="password" placeholder="password" required>
+            <input type="submit" value="Login">
+        </form>
 
-    <form action="/api/users" method="post">
-        <h3>Register</h3>
-        <h6>Username</h6>
-        <input type="text" name="username" placeholder="username" required>
-        <h6>Password</h6>
-        <input type="password" name="password" placeholder="password" required> <br/>
-        <input type="submit" value="Register" >
-    </form>
+        <form action="/api/users" method="post" class="user_form">
+            <h3>Register</h3>
+            Username
+            <input type="text" name="username" placeholder="username" required>
+            Password
+            <input type="password" name="password" placeholder="password" required>
+            <input type="submit" value="Register" >
+        </form>
+    </div>
 </body>
 </html>

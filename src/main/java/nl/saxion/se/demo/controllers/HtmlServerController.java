@@ -33,19 +33,19 @@ public class HtmlServerController {
         }
     }
 
-    @Controller
-    @RequestMapping("/exercises")
-    public class ExercisesHtmlController {
-        @GetMapping(path = "")
-        public String getExercises(Model model, HttpSession session, @CookieValue(value = "lastExerciseAdded", required = false) String lastExerciseAdded) {
-            return ExerciseController.getExercises(model, session, lastExerciseAdded);
-        }
-
-        @GetMapping(path = "/{exerciseName}")
-        public String getExercise(@PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
-            return ExerciseController.getExercise(exerciseName, model, session);
-        }
-    }
+//    @Controller
+//    @RequestMapping("/exercises")
+//    public class ExercisesHtmlController {
+//        @GetMapping(path = "")
+//        public String getExercises(Model model, HttpSession session, @CookieValue(value = "lastExerciseAdded", required = false) String lastExerciseAdded) {
+//            return ExerciseController.getExercises(model, session, lastExerciseAdded);
+//        }
+//
+//        @GetMapping(path = "/{exerciseName}")
+//        public String getExercise(@PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
+//            return ExerciseController.getExercise(exerciseName, model, session);
+//        }
+//    }
 
     @Controller
     @RequestMapping("/me")

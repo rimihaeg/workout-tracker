@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @Controller
-@RequestMapping("/api/exercises")
+@RequestMapping("/exercises")
 public class ExerciseController {
 
     static DataController dataController = DataController.getInstance();

@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.security.auth.Subject;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 @Controller
 @RequestMapping("/api/login")
@@ -25,7 +21,6 @@ public class LoginController {
 
     @PostMapping(path = "")
     public ResponseEntity<Subject> login(UserRequestModel userReq, HttpSession session, Model model) {
-        // TODO: cookie
         User user = dataController.getUser(userReq.getUsername());
         if (user != null) {
             if (user.verifyPassword(userReq.getPassword())) {
@@ -35,7 +30,7 @@ public class LoginController {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.add("Location", "/me");
-                
+
                 return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
             } else
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
