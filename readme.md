@@ -120,3 +120,12 @@ A possible solution was to simply call `subList()` and pass along the elements a
 
 The solution picked was turning the Stack into a LinkedList. The LinkedList also supports the push function, putting the new element at the start of the list.
 The first element now is the newest element, so calling `subList()` now returns a list with the intended order.
+
+### background colour and linux
+Some linux distros using themes have the tendency to fill in colours that were not explicitly stated in the css.
+Often this leads to form input boxes to take on the colour of the theme.
+A dark theme causes black characters on a black background, not very user friendly.
+Some websites, like Quora, do not have a stated background colour.
+
+Since the background colour of the website is not white, the issue is therefor limited to input boxes.
+To remove this issue the input boxes have therefor also been given a background colour.
