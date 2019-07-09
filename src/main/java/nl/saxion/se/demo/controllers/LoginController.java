@@ -14,7 +14,7 @@ import javax.security.auth.Subject;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/api/login")
+@RequestMapping("/login")
 public class LoginController {
 
     DataController dataController = DataController.getInstance();

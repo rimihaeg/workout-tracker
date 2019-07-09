@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/users.css">
 </head>
 <body>
     <nav>
@@ -11,14 +12,16 @@
         <a href="/exercises">exercises</a>
         <a href="/users" th:if="${username}">users</a>
     </nav>
-    Users page
-    <div th:each="user:${users}">
-        <span th:text="${user.username}"></span> <br/>
-        <div th:if="${user.sets.size()} > 0">
-            Last set:<br/>
-            <span th:text="${user.sets[0].exercise.name}"></span> <br/>
-            reps:
-            <span th:text="${user.sets[0].reps}"></span>
+
+    <div class="users">
+        <div th:each="user:${users}" class="user">
+            <a th:text="${user.username}" th:href="@{/users/{username}(username=${user.username})}"></a> <br/>
+            <div th:if="${user.sets.size()} > 0">
+                Last set:<br/>
+                <span th:text="${user.sets[0].exercise.name}"></span> <br/>
+                reps:
+                <span th:text="${user.sets[0].reps}"></span>
+            </div>
         </div>
     </div>
 </body>

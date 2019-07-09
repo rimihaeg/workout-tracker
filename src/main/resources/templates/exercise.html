@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Exercise</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <nav>
@@ -12,14 +12,16 @@
         <a href="/users" th:if="${username}">users</a>
     </nav>
 
-    Exercise page
     <div>
         <h5 th:text="${exercise.name}"></h5>
         <p th:text="${exercise.description}">Description unavailable</p>
-        <div th:each="target:${exercise.targets}">
-            <span th:text="${target}"></span>
-        </div>
-        <form th:if="${username}" th:action="@{/api/exercises/{exerciseName}(exerciseName=${exercise.name})}" method="post">
+        <p><b>Targets:</b></p>
+        <ul>
+            <li th:each="target:${exercise.targets}">
+                <span th:text="${target}"></span>
+            </li>
+        </ul>
+        <form th:if="${username}" th:action="@{/exercises/{exerciseName}(exerciseName=${exercise.name})}" method="post">
             <h6>Description:</h6>
             <input type="text" name="description" th:value="${exercise.description}">
             <h6>Target(s):</h6>

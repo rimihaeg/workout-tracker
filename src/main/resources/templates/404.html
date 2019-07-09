@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Not Found</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <nav>
@@ -11,7 +11,8 @@
         <a href="/exercises">exercises</a>
         <a href="/users" th:if="${username}">users</a>
     </nav>
-    Not Found page
-    <div th:text="${errorMessage}">Could not find what you were looking for</div>
+    <content>
+        <div th:text="${errorMessage}">Could not find what you were looking for</div>
+    </content>
 </body>
 </html>

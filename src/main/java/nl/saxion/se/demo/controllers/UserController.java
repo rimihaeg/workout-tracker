@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 @Controller
-@RequestMapping("/api/me")
+@RequestMapping("/me")
 public class UserController {
 
     static DataController dataController = DataController.getInstance();
@@ -34,7 +34,7 @@ public class UserController {
         String username = (String) session.getAttribute("username");
         if (username == null)
             return "401";
-        Stack<Set> sets = (Stack<Set>) session.getAttribute("sets");
+        LinkedList<Set> sets = (LinkedList<Set>) session.getAttribute("sets");
 
         User user = dataController.getUser(username);
         model.addAttribute("username", username);
@@ -57,10 +57,10 @@ public class UserController {
         if (session.getAttribute("username") == null)
             return "401";
 
-        Stack<Set> ph = (Stack<Set>) session.getAttribute("sets");
+        LinkedList<Set> ph = (LinkedList<Set>) session.getAttribute("sets");
         List<Set> sets;
 
-        if (limit != 0) {
+        if (limit != 0 && limit <= ph.size()) {
             sets = ph.subList(0, limit);
         } else {
             sets = ph.subList(0, ph.size());

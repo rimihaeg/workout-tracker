@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("api/users")
+@RequestMapping("/users")
 public class UsersController {
 
     static DataController dataController = DataController.getInstance();
@@ -29,14 +29,17 @@ public class UsersController {
 
     @GetMapping(path = "/{username}")
     public static String getUser(@PathVariable("username") String username, HttpSession session, Model model) {
-        if (session.getAttribute("username") == null) {
+        String activeUsername = (String) session.getAttribute("username");
+        if (activeUsername == null) {
             model.addAttribute("401");
             return "401";
         }
+        model.addAttribute("username", activeUsername);
         User user = dataController.getUser(username);
         if (user == null)
             return "404";
-        return "user"; // TODO: change to users?
+        model.addAttribute("users", new User[]{user});
+        return "users";
     }
 
     @GetMapping(path = "")

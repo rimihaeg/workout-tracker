@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Exercises</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="exercises.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/exercises.css">
 </head>
 <body>
     <nav>
@@ -18,9 +18,8 @@
         <span th:text="${lastExerciseAdded}"></span>
     </div>
 
-    Exercises page
 
-    <form action="/api/exercises" method="post" th:if="${username}">
+    <form action="/exercises" method="post" th:if="${username}">
         <h4>Name:</h4>
         <input type="text" name="name" placeholder="eg. pullup" required>
         <h4>Description (optional):</h4>
@@ -28,9 +27,9 @@
         <input type="submit" value="Submit">
     </form>
 
-    <div th:each="exercise:${exercises}">
-        <div>
-            <a th:text="${exercise.name}" th:href="@{/api/exercises/{exerciseName}(exerciseName=${exercise.name})}"></a>
+    <div class="exercises">
+        <div th:each="exercise:${exercises}" class="exercise">
+            <a th:text="${exercise.name}" th:href="@{/exercises/{exerciseName}(exerciseName=${exercise.name})}"></a>
             <p th:text="${exercise.description}"></p>
         </div>
     </div>

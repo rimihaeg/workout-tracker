@@ -6,32 +6,34 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+// TODO: error mapping
+
 @Controller
 @RequestMapping("")
 public class HtmlServerController {
 
     @GetMapping(path = "")
-    public String home(HttpSession session) {
+    public static String home(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         if (username == null)
             return "login";
         else
-            return "me";
+            return UserController.getUser(session, model);
     }
 
-    @Controller
-    @RequestMapping("/users")
-    public class UsersHtmlController {
-        @GetMapping(path = "")
-        public String getUsers(HttpSession session, Model model) {
-            return UsersController.getUsers(session, model);
-        }
-
-        @GetMapping(path = "/{username}")
-        public String getUser(@PathVariable("username") String username, HttpSession session, Model model) {
-            return UsersController.getUser(username, session, model);
-        }
-    }
+//    @Controller
+//    @RequestMapping("/users")
+//    public static class UsersHtmlController {
+//        @GetMapping(path = "")
+//        public static String getUsers(HttpSession session, Model model) {
+//            return UsersController.getUsers(session, model);
+//        }
+//
+//        @GetMapping(path = "/{username}")
+//        public static String getUser(@PathVariable("username") String username, HttpSession session, Model model) {
+//            return UsersController.getUser(username, session, model);
+//        }
+//    }
 
 //    @Controller
 //    @RequestMapping("/exercises")
@@ -47,18 +49,17 @@ public class HtmlServerController {
 //        }
 //    }
 
-    @Controller
-    @RequestMapping("/me")
-    public class UserHtmlController {
-        @GetMapping(path = "")
-        public String getUser(HttpSession session, Model model) {
-            return UserController.getUser(session, model);
-        }
-        @GetMapping(path = "/sets")
-        public String getSets(HttpSession session, @RequestParam(value = "limit", required = false, defaultValue = "0") int limit, Model model) {
-            return UserController.getNumberOfSets(session, limit, model);
-        }
-    }
-
+//    @Controller
+//    @RequestMapping("/me")
+//    public static class UserHtmlController {
+//        @GetMapping(path = "")
+//        public static String getUser(HttpSession session, Model model) {
+//            return UserController.getUser(session, model);
+//        }
+//        @GetMapping(path = "/sets")
+//        public static String getSets(HttpSession session, @RequestParam(value = "limit", required = false, defaultValue = "0") int limit, Model model) {
+//            return UserController.getNumberOfSets(session, limit, model);
+//        }
+//    }
 
 }

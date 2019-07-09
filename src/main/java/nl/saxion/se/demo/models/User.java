@@ -1,6 +1,6 @@
 package nl.saxion.se.demo.models;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class User {
 
@@ -9,13 +9,13 @@ public class User {
     private String username;
     private String password;
 
-    Stack<Set> sets;
+    LinkedList<Set> sets;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
 
-        sets = new Stack<>();
+        sets = new LinkedList<>();
     }
 
     public boolean verifyPassword(String password) {
@@ -34,7 +34,7 @@ public class User {
         return sets.peek();
     }
 
-    public Stack getSets() {
+    public LinkedList<Set> getSets() {
         return sets;
     }
 

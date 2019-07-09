@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sets</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/me.css">
 </head>
 <body>
     <nav>
@@ -11,11 +12,13 @@
         <a href="/exercises">exercises</a>
         <a href="/users" th:if="${username}">users</a>
     </nav>
-    Sets page
-    <div th:each="set:${sets}">
-        <p th:text="${set.exercise.name}"></p>
-        reps:
-        <span th:text="${set.reps}"></span>
+
+    <div class="exercises">
+        <div th:each="set:${sets}" class="exercise">
+            <p th:text="${set.exercise.name}"></p>
+            reps:
+            <span th:text="${set.reps}"></span>
+        </div>
     </div>
 </body>
 </html>

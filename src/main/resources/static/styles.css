@@ -6,10 +6,16 @@
     font-size: 100%;
     /*vertical-align: baseline;*/
     /*background: transparent;*/
+    font-family: Helvetica, sans-serif;
 }
 
 body {
     background-color: #fff;
+    overflow-x: hidden;
+}
+
+p {
+    margin: 8px 0;
 }
 
 nav {
@@ -29,28 +35,8 @@ nav > a:hover {
     box-shadow: 4px 4px 4px black;
 }
 
-.forms {
-    display: flex;
-    flex-direction: column;
-}
-
-.user_form {
-    padding: 8px;
-}
-
-.user_form > input {
-    display: block;
-    margin: 8px 0;
-    /*border: 1px solid gray;*/
-    border-radius: 2px;
-}
-
 @media only screen and (min-width: 600px) {
     nav {
-        flex-direction: row;
-    }
-
-    .forms {
         flex-direction: row;
     }
 }

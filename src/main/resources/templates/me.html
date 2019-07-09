@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Me</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="me.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/me.css">
 </head>
 <body>
     <nav>
@@ -16,13 +16,12 @@
     <span class="success" th:if="${success}">Set added</span>
     <span class="failure" th:if="${unknownExercise}">Could not find exercise, set not updated</span>
 
-    <p>Me page</p>
     <p>
         <span>Hello, </span>
         <span th:text="${username}"></span>
     </p>
 
-    <form action="/api/me" method="post">
+    <form action="/me" method="post">
         <h3>Add new exercise</h3>
         <input type="text" name="exerciseName" placeholder="exercise" required>
         Repetitions:

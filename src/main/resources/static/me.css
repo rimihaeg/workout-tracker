@@ -1,0 +1,22 @@
+.exercises {
+    display: flex;
+    flex-direction: column;
+}
+
+.exercise {
+    padding: 16px;
+}
+
+form > input {
+    display: block;
+    margin: 8px 0;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+@media only screen and (min-width: 600px) {
+    .exercises {
+        flex-flow: row wrap;
+    }
+}
+

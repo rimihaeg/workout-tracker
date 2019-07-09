@@ -1,0 +1,33 @@
+.exercises {
+    display: flex;
+    flex-direction: column;
+}
+
+.exercise {
+    padding: 16px;
+}
+
+.lastAdded {
+    position: absolute;
+    background: lightgray;
+    width: 15%;
+    right: 0;
+
+    animation-name: fade_right;
+    animation-duration: 2s;
+    animation-delay: 3s;
+    animation-fill-mode: forwards;
+}
+
+@media only screen and (min-width: 600px) {
+    .exercises {
+        flex-flow: row wrap;
+    }
+}
+
+@keyframes fade_right {
+    100% {
+        transform: translateX(100%);
+        visibility: hidden;
+    }
+}
