@@ -38,11 +38,11 @@ To properly accommodate the user, the application should be able to do the follo
 
 As I have some experience building an API I started out with this as a basis.
 The API had endpoints for endpoints for all these user actions, as well as a DELETE for a set.
-But because HTML forms do not support the DELETE method I decided to not use this endpoint.
+But because HTML forms do not support the DELETE method this endpoint was scrapped.
 
-There was also a PUT for updating an exercise, but since HTML froms do not support PUT either I turned this into a POST.
+There was also a PUT for updating an exercise, but since HTML froms do not support PUT either this was turned into a POST.
 
-With the API I tried to add the proper HTTP codes, but getting this to work with templating cost too much time, and as the user would not receive these codes anyway I decided to forgo this feature.
+With the API I tried to add the proper HTTP codes, but getting this to work with templating cost too much time, and as the user would not receive these codes anyway this feature was scrapped.
 
 The API specification looks as follows:
 
@@ -66,7 +66,7 @@ The API specification looks as follows:
 | Yes | GET | ~~/api~~/me/sets?limit={int} |
 | ~~Yes~~ | ~~DELETE~~ | ~~/api/me/{setId}~~ |
 
-A more detailed API specification can be found at the end of this document.
+[A more detailed API specification](#full-api-specs) can be found at the end of this document.
 
 During implementation of the templating there was an issue with the API calls. The endpoints were moved from `/...` to `/api/...`.
 A new HTML controller was created to support all the calls to the website itself.
@@ -91,19 +91,19 @@ The DataController is available through a singleton construction.
 The users and exercises are saved in a HashMap. This makes it easy to find the required object, if it exists.
 
 If the DataController receives a request for, for example, an object that does not exist (yet), the DataController will throw an exception.
-It is upto the controller to properly handle this exception.
+It is upto the caller to properly handle this exception.
 
 The User object is in control of the sets from the user.
-This collection was supposed to be saved as a Stack, but it became a LinkedList in the end. More on this in the [Issues](#Issues) chapter.
+This collection was supposed to be saved as a Stack, but it became a LinkedList in the end. More on this in the [Issues chapter](#issues).
 
 ### Models
 Because the Controllers have to process request inputs, they need to verify the input to some class.
 The requestModels package contains these classes.
 These classes contain a function to be turned into the class it is associated with.
 
-A users password should not be able to be accessible to the outside world.
+A users password should not be accessible to the outside world.
 Because of this the User class has a verifyPassword function which returns `true` if the password is correct and `false` if incorrect.
-This way there does not have to be a getter for the password.
+This way there does not have to be a getter for the password, allowing it to stay private.
 
 ## Website URL's
 | Path |
@@ -121,14 +121,14 @@ This way there does not have to be a getter for the password.
 | */me/sets?limit={int}* |
 
 ## HTML, CSS and Thymeleaf
-The CSS consists of one main file, styles.css, and an extra file for the specific pages.
+The CSS consists of one main file, styles.css, and an extra file for each specific page.
 This way CSS attributes used on every page do not have to be duplicated in separate style sheets whilst reducing the need for one big sheet for the whole application.
 
 The styles.css file also contains a selector that resets some basic styles a browser might add, like white borders around the edges.
 
 To navigate the website, the HTML makes use of a nav tag.
-This element contains links to the homepage, login if the user is not logged in or the users personal page if the user is logged in,
-the exercises page, and the users page if the user is logged in.
+This element contains links to the homepage (login if the user is not logged in or the users personal page if the user is logged in),
+the exercises page, and, if the user is logged in, the users page.
 
 The form text inputs make use of placeholder texts to inform the user of the type of input expected to be used. 
 
@@ -137,22 +137,24 @@ If the user succeeds in creating an account the user will be told that the accou
 If the account name already exists the user will be told this as well.
 
 If the user has added an exercise to the application and visits the exercises page, the user will be shown what exercise he/she added last.
-This element will stay for a few seconds before floating off screen and disappearing. More on this in the [Issues](#Issues) chapter.
+This element will stay for a few seconds before floating off screen and disappearing. More on this in the [Issues chapter](#issues).
 
 If a user that has not been signed in visits the exercises page, the form for adding a new exercise will not be shown.
 
 ## Issues
+Here are some issues I ran into while creating the application.
+
 ### Overflow-x
 There is an element that uses animation to float away from the screen before disappearing.
-This adds a little extra to the app, but without intervention this also adds extra unused space in the direction the element floats off screen, in this case the right.
+TWithout intervention this adds extra unused space in the direction that the element floats off screen, in this case the right.
 
-To fix this adding of whitespace, and the sudden appearance of a horizontal scrolling bar, the `overflow-x` of the body had to be set to `hidden`.
+To fix this sudden increase in whitespace, and the appearance of a horizontal scrolling bar, the `overflow-x` of the body had to be set to `hidden`.
 
 As the name `overflow-x` suggests, it regulates overflow, a child taking up more space than the parent element, on the x-axis.
 
 ### Stack and subList()
 The plan to present the user's newest sets first sounded like the perfect place to use a stack, it both operates on the FILO principal.
-The Stack ahd to be turned into a list for proper thymeleaf handling.
+The Stack had to be turned into a list for proper thymeleaf handling.
 
 The `Stack.subList()` function was able to do this, whilst also providing the option of filtering x amount of elements from the stack.
 The problem with this approach was that the `subList()` function does not use the stack's intended order, LIFO, but uses a regular FIFO order.
@@ -250,3 +252,5 @@ To remove this issue the input boxes have therefor also been given a background 
 | **Request parameter** | limit*: int |
 | **Returns page** | /me/sets |
 | | 401 |
+
+This documentation was written in Markdown and converted to PDF.
