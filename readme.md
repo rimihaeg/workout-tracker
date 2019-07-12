@@ -71,15 +71,14 @@ A more detailed API specification can be found at the end of this document.
 During implementation of the templating there was an issue with the API calls. The endpoints were moved from `/...` to `/api/...`.
 A new HTML controller was created to support all the calls to the website itself.
 
-In the end this caused issues with some of the paths not being able to retrieve the right css files.
+In the end this caused issues with some of the paths not being able to retrieve the right CSS files.
 This seemed to fix the issue for the `/exercises` path, but the problem was found later on other paths as well.
-It turned out to be a problem with the css files in the HTML. The references were written context-relative, `exercises.css`.
+It turned out to be a problem with the CSS files in the HTML. The references were written context-relative, `exercises.css`.
 Turning the references into server-relative urls, `/exercises.css`, solved the issue.
 
 The HTML controller now mainly functions to redirect the user from the homepage, either to `/me` if the user is logged in, or `/login` if the user is not logged in.
 
 ## Server description
-// TODO: add server diagram
 ![Class diagram](https://github.com/rimihaeg/workout-tracker/blob/master/DataController.png)
 
 The server is initiated through the WorkoutTrackerApplication.java class. This class starts the Spring application.
@@ -106,8 +105,7 @@ A users password should not be able to be accessible to the outside world.
 Because of this the User class has a verifyPassword function which returns `true` if the password is correct and `false` if incorrect.
 This way there does not have to be a getter for the password.
 
-## Website
-### Website URL's
+## Website URL's
 | Path |
 | ---- |
 | **Users** |
@@ -122,10 +120,28 @@ This way there does not have to be a getter for the password.
 | */me* |
 | */me/sets?limit={int}* |
 
+## HTML, CSS and Thymeleaf
+The CSS consists of one main file, styles.css, and an extra file for the specific pages.
+This way CSS attributes used on every page do not have to be duplicated in separate style sheets whilst reducing the need for one big sheet for the whole application.
 
+The styles.css file also contains a selector that resets some basic styles a browser might add, like white borders around the edges.
+
+To navigate the website, the HTML makes use of a nav tag.
+This element contains links to the homepage, login if the user is not logged in or the users personal page if the user is logged in,
+the exercises page, and the users page if the user is logged in.
+
+The form text inputs make use of placeholder texts to inform the user of the type of input expected to be used. 
+
+If a user signs up for the application there will be an extra element added to the page.
+If the user succeeds in creating an account the user will be told that the account has been created.
+If the account name already exists the user will be told this as well.
+
+If the user has added an exercise to the application and visits the exercises page, the user will be shown what exercise he/she added last.
+This element will stay for a few seconds before floating off screen and disappearing. More on this in the [Issues](#Issues) chapter.
+
+If a user that has not been signed in visits the exercises page, the form for adding a new exercise will not be shown.
 
 ## Issues
-
 ### Overflow-x
 There is an element that uses animation to float away from the screen before disappearing.
 This adds a little extra to the app, but without intervention this also adds extra unused space in the direction the element floats off screen, in this case the right.
@@ -147,7 +163,7 @@ The solution picked was turning the Stack into a LinkedList. The LinkedList also
 The first element now is the newest element, so calling `subList()` now returns a list with the intended order.
 
 ### background colour and linux
-Some linux distributions that can use themes have the tendency to fill in colours that were not explicitly stated in the css.
+Some linux distributions that can use themes have the tendency to fill in colours that were not explicitly stated in the CSS.
 Often this leads to form input boxes to take on the colour of the theme.
 A dark theme causes black characters on a black background, not very user friendly.
 Some websites, like Quora, do not have a stated background colour.
