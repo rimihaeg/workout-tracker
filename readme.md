@@ -46,7 +46,6 @@ With the API I tried to add the proper HTTP codes, but getting this to work with
 
 The API specification looks as follows:
 
-// todo: add input and output
 ### API Specification
 | Auth required | Method | Path |
 | :------------ | ------ | ---: |
@@ -67,6 +66,8 @@ The API specification looks as follows:
 | Yes | GET | ~~/api~~/me/sets?limit={int} |
 | ~~Yes~~ | ~~DELETE~~ | ~~/api/me/{setId}~~ |
 
+A more detailed API specification can be found at the end of this document.
+
 During implementation of the templating there was an issue with the API calls. The endpoints were moved from `/...` to `/api/...`.
 A new HTML controller was created to support all the calls to the website itself.
 
@@ -76,6 +77,34 @@ It turned out to be a problem with the css files in the HTML. The references wer
 Turning the references into server-relative urls, `/exercises.css`, solved the issue.
 
 The HTML controller now mainly functions to redirect the user from the homepage, either to `/me` if the user is logged in, or `/login` if the user is not logged in.
+
+## Server description
+// TODO: add server diagram
+![Class diagram](https://github.com/rimihaeg/workout-tracker/blob/master/DataController.png)
+
+The server is initiated through the WorkoutTrackerApplication.java class. This class starts the Spring application.
+The Spring framework automagically finds the controllers through the use of the `@Controller` attribute.
+These controllers are HtmlServerController, LoginController, UsersController, UserController and ExerciseController.
+Normally an application like this connects to a database, but since this is out of the scope of this assignment there is an extra DataController which is in control of all the data saved in the application.
+
+### Data
+The DataController is available through a singleton construction.
+The users and exercises are saved in a HashMap. This makes it easy to find the required object, if it exists.
+
+If the DataController receives a request for, for example, an object that does not exist (yet), the DataController will throw an exception.
+It is upto the controller to properly handle this exception.
+
+The User object is in control of the sets from the user.
+This collection was supposed to be saved as a Stack, but it became a LinkedList in the end. More on this in the [Issues](#Issues) chapter.
+
+### Models
+Because the Controllers have to process request inputs, they need to verify the input to some class.
+The requestModels package contains these classes.
+These classes contain a function to be turned into the class it is associated with.
+
+A users password should not be able to be accessible to the outside world.
+Because of this the User class has a verifyPassword function which returns `true` if the password is correct and `false` if incorrect.
+This way there does not have to be a getter for the password.
 
 ## Website
 ### Website URL's
@@ -118,7 +147,7 @@ The solution picked was turning the Stack into a LinkedList. The LinkedList also
 The first element now is the newest element, so calling `subList()` now returns a list with the intended order.
 
 ### background colour and linux
-Some linux distros using themes have the tendency to fill in colours that were not explicitly stated in the css.
+Some linux distributions that can use themes have the tendency to fill in colours that were not explicitly stated in the css.
 Often this leads to form input boxes to take on the colour of the theme.
 A dark theme causes black characters on a black background, not very user friendly.
 Some websites, like Quora, do not have a stated background colour.
@@ -127,7 +156,7 @@ Since the background colour of the website is not white, the issue is therefor l
 To remove this issue the input boxes have therefor also been given a background colour.
 
 ## Full API specs
-* = optional
+\* = optional
 
 ### Users
 | Path | Auth required |
