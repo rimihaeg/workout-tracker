@@ -67,14 +67,6 @@ public class ExerciseController {
         return "exercise";
     }
 
-    /**
-     * Should be a PUT function, but HTML form doesn't support this.
-     * @param exerciseModel
-     * @param exerciseName
-     * @param model
-     * @param session
-     * @return
-     */
     @PostMapping(path = "/{exerciseName}")
     public String updateExercise(ExerciseRequestModel exerciseModel, @PathVariable("exerciseName") String exerciseName, Model model, HttpSession session) {
         if (session.getAttribute("username") == null)

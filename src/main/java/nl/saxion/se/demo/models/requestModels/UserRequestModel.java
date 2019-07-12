@@ -7,8 +7,6 @@ public class UserRequestModel {
     String username;
     String password;
 
-    // TODO: make fields required
-
     public UserRequestModel(String username, String password) {
         this.username = username;
         this.password = password;

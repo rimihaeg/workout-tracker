@@ -213,6 +213,7 @@ To remove this issue the input boxes have therefor also been given a background 
 | | description*: String |
 | **Returns page** | /exercises |
 
+
 | Path | Auth required |
 | :----- | ------- |
 | POST /exercises/{exerciseName} | YES |
@@ -220,10 +221,12 @@ To remove this issue the input boxes have therefor also been given a background 
 | | targets*: String[] |
 | **Returns page** | /exercises/{exerciseName} |
 
+
 | Path | Auth required |
 | :----- | ------- |
 | GET /exercises | NO |
 | **Returns page** | /exercises |
+
 
 | Path | Auth required |
 | :----- | ------- |

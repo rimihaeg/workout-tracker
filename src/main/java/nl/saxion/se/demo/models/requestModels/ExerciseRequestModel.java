@@ -9,8 +9,6 @@ public class ExerciseRequestModel {
 
     String[] targets;
 
-    // TODO: make name required
-
     public String getName() {
         return name;
     }

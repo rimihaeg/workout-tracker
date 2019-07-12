@@ -3,9 +3,7 @@ package nl.saxion.se.demo.models;
 import java.util.LinkedList;
 
 public class User {
-
-    // TODO: hash password
-
+    
     private String username;
     private String password;
 
