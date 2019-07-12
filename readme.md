@@ -23,6 +23,8 @@ To use the webapp properly the user should be familiar with the following terms:
 
 Although I like running as well, tracking a run is not in the scope of this application, as running is generally time based, and not repetition based.
 
+For testing purposes, the accounts user (password: user) and admin (password: admin) are available.
+
 ## The Application
 To properly accommodate the user, the application should be able to do the following things:
 * Have a new user create an account;
@@ -49,33 +51,31 @@ The API specification looks as follows:
 | Auth required | Method | Path |
 | :------------ | ------ | ---: |
 | **Users** |
-| No | POST | /api/users |
-| Yes | GET | /api/users |
-| Yes | GET | /api/users/{username} |
+| No | POST | ~~/api~~/users |
+| Yes | GET | ~~/api~~/users |
+| Yes | GET | ~~/api~~/users/{username} |
 | **Login** |
-| No | POST | /api/login |
-| **Exercise** |
+| No | POST | ~~/api~~/login |
+| **Exercises** |
 | Yes | POST | ~~/api~~/exercises |
 | No | GET | ~~/api~~/exercises |
 | No | GET | ~~/api~~/exercises/{exerciseName} |
 | Yes | ~~PUT~~ POST | ~~/api~~/exercises/{exerciseName} |
-| **Set** |
-| Yes | POST | /api/me |
-| Yes | GET | /api/me |
-| Yes | GET | /api/me/sets?limit={int} |
+| **Sets** |
+| Yes | POST | ~~/api~~/me |
+| Yes | GET | ~~/api~~/me |
+| Yes | GET | ~~/api~~/me/sets?limit={int} |
 | ~~Yes~~ | ~~DELETE~~ | ~~/api/me/{setId}~~ |
 
 During implementation of the templating there was an issue with the API calls. The endpoints were moved from `/...` to `/api/...`.
 A new HTML controller was created to support all the calls to the website itself.
 
-In the end this caused issues with the Exercises path, the HTML form was only able to call to the current page, `/exercises`, and its its subpages.
-It was not able to redirect to `/api/exercises`.
-To remove this issue the `/api/exercises` controller was moved back to `/exercises` and the reroute from the HTML controller was turned off.
+In the end this caused issues with some of the paths not being able to retrieve the right css files.
+This seemed to fix the issue for the `/exercises` path, but the problem was found later on other paths as well.
+It turned out to be a problem with the css files in the HTML. The references were written context-relative, `exercises.css`.
+Turning the references into server-relative urls, `/exercises.css`, solved the issue.
 
-The other pages are still being routed through the HTML controller.
-If this was a production application the HTML controller would not be used like this, but because it is a learning point for me, I decided to keep it in.
-
-The mail function of the HTML controllers is redirecting already logged in users to their own page, this functionality would be kept for production. 
+The HTML controller now mainly functions to redirect the user from the homepage, either to `/me` if the user is logged in, or `/login` if the user is not logged in.
 
 ## Website
 ### Website URL's
@@ -96,10 +96,6 @@ The mail function of the HTML controllers is redirecting already logged in users
 
 
 ## Issues
-### Context-relative vs Server-relative urls
-There was a problem loading css files due to a missing `/` in front of the css name.
-This caused the website to try and load a context-relative url.
-So when going to `/me` Thymeleaf would try to send `/me/me.css` instead of `/me.css`.
 
 ### Overflow-x
 There is an element that uses animation to float away from the screen before disappearing.
@@ -129,3 +125,83 @@ Some websites, like Quora, do not have a stated background colour.
 
 Since the background colour of the website is not white, the issue is therefor limited to input boxes.
 To remove this issue the input boxes have therefor also been given a background colour.
+
+## Full API specs
+* = optional
+
+### Users
+| Path | Auth required |
+| :----- | ------- |
+| POST /users | NO |
+| **Input** | username: String |
+| | password: String |
+| **Returns page** | / |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /users | YES |
+| **Returns page** | /users |
+| | 401 |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /users/{username} | YES |
+| **Returns page** | /users |
+| | 401 |
+| | 404 |
+
+### Login
+| Path | Auth required |
+| :----- | ------- |
+| POST /login | NO |
+| **Input** | username: String |
+| | password: String |
+| **Returns page** | / |
+
+### Exercises
+| Path | Auth required |
+| :----- | ------- |
+| POST /exercises | YES |
+| **Input** | name: String |
+| | description*: String |
+| **Returns page** | /exercises |
+
+| Path | Auth required |
+| :----- | ------- |
+| POST /exercises/{exerciseName} | YES |
+| **Input** | description*: String |
+| | targets*: String[] |
+| **Returns page** | /exercises/{exerciseName} |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /exercises | NO |
+| **Returns page** | /exercises |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /exercises/{exerciseName} | NO |
+| **Returns page** | /exercises/{exerciseName} |
+| | 404 |
+
+### Sets
+| Path | Auth required |
+| :----- | ------- |
+| POST /me | YES |
+| **Input** | exerciseName: String |
+| | reps: int |
+| **Returns page** | /me |
+| | 401 |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /me | YES |
+| **Returns page** | /me |
+| | 401 |
+
+| Path | Auth required |
+| :----- | ------- |
+| GET /me/sets | YES |
+| **Request parameter** | limit*: int |
+| **Returns page** | /me/sets |
+| | 401 |
